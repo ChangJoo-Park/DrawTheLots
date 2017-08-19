@@ -53,7 +53,8 @@ function onBack(args) {
 }
 
 function onItemTap(args) {
-  resultViewModel.toggleWinner(args.index);
+  alert('hello')
+  // resultViewModel.toggleWinner(args.index);
 }
 
 function onSwipeCellFinished(args) {}

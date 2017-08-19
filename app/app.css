@@ -31,6 +31,10 @@ Button {
   background-color: transparent;
 }
 
+.label-wrapper {
+  padding: 10;
+}
+
 .home {
   color: black;
 }
@@ -45,10 +49,26 @@ Button {
 .home .postfix-label {
   font-size: 50;
 }
-.label-wrapper {
-  padding: 10;
+
+.result .item-wrapper {
+  background-color: white;
 }
 
+.item-wrapper .item-label {
+  text-align: center;
+  font-size: 80;
+  font-weight: bold;
+  color: gray;
+  text-decoration: none;
+}
+.item-wrapper .item-label.active {
+  color: black;
+  text-decoration: line-through;
+}
+.item-wrapper .item-border {
+  height: 2;
+  background-color: #42b983;
+}
 /*
 In many cases you may want to use the NativeScript core theme instead
 of writing your own CSS rules. For a full list of class names in the theme
