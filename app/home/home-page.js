@@ -15,7 +15,9 @@ var topmost = frameModule.topmost;
 var dialogs = require("ui/dialogs");
 var HomeViewModel = require("./home-view-model");
 var homeViewModel = new HomeViewModel();
-var shuffleUtil = require('../utils/shuffle')
+var LoadingIndicator = require("nativescript-loading-indicator").LoadingIndicator;
+
+var loader = new LoadingIndicator();
 
 function onNavigatingTo(args) {
     /*
@@ -40,10 +42,20 @@ function onNavigatingTo(args) {
 
 function onTapNumber(args) {
     const target = args.object.target
-    console.log('homeViewModel.get(target).toStrnig() : ', homeViewModel.get(target).toString())
+    let title = ""
+    switch (target) {
+        case 'participant':
+            title = "참여자 수"
+        break
+        case 'winner':
+            title = "당첨자 수"
+        break
+    }
+
     const beforeNumber = homeViewModel.get(target).toString()
+
     prompt({
-        title: '당첨자 수',
+        title: title,
         message: '숫자로 입력해주세요',
         okButtonText: "확인",
         cancelButtonText: "취소",
@@ -69,24 +81,52 @@ function onTapNumber(args) {
 }
 
 function onStartTap (args) {
-    var participantArray = []
-    for (var i = 0; i < parseInt(homeViewModel.get('participant'), 10); i++) {
-      participantArray.push(new observableModule.fromObject({
-        number: i + 1,
-        isGet: false
-      }))
-    }
+    startLoading()
 
-    topmost().navigate({
-        moduleName: "result/result-page",
-        context: {
-            participant: homeViewModel.get('participant'),
-            winner: homeViewModel.get('winner'),
-            winners: shuffleUtil.shuffle(participantArray)
+    const w = new Worker('../utils/shuffler.js')
+    const numberOfParticipant = parseInt(homeViewModel.get('participant'), 10)
+    w.postMessage({
+        numberOfParticipant: numberOfParticipant
+    })
+
+    w.onmessage = function (msg) {
+        if (msg.data.res = 'success') {
+            stopLoading ()
+            topmost().navigate({
+              moduleName: "result/result-page",
+              context: {
+                  participant: homeViewModel.get('participant'),
+                  winner: homeViewModel.get('winner'),
+                  winners: msg.data.shuffledWinners
+              }
+            });
         }
-    });
+    }
 }
 
+function startLoading () {
+    // optional options
+    // android and ios have some platform specific options
+    var options = {
+      message: '당첨자를 찾고 있습니다.',
+      progress: 0.65,
+      android: {
+        indeterminate: true,
+        cancelable: false,
+        max: 100,
+        progressNumberFormat: "%1d/%2d",
+        progressPercentFormat: 0.53,
+        progressStyle: 1,
+        secondaryProgress: 1
+      }
+    };
+
+    loader.show(options); // options is optional
+}
+
+function stopLoading () {
+    loader.hide()
+}
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
 to the file’s corresponding XML file. In this case, exporting the onNavigatingTo

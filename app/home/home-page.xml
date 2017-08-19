@@ -5,7 +5,6 @@
     <!--Add your page content here-->
     <ActionBar title="제비뽑기">
     </ActionBar>
-
     <FlexboxLayout flexDirection="column" class="page-content home">
         <StackLayout flexGrow="1" verticalAlignment="bottom" margin="10" color="black">
             <StackLayout target="participant" tap="onTapNumber">
