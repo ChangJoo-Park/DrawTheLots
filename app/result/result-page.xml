@@ -1,7 +1,7 @@
-<Page 
-  xmlns="http://www.nativescript.org/tns.xsd" 
-  xmlns:lv="nativescript-telerik-ui/listview" 
-  navigatingTo="onNavigatingTo" 
+<Page
+  xmlns="http://www.nativescript.org/tns.xsd"
+  xmlns:lv="nativescript-telerik-ui/listview"
+  navigatingTo="onNavigatingTo"
   >
   <!--Add your page content here-->
   <ActionBar title="제비뽑기">
@@ -9,33 +9,34 @@
   </ActionBar>
   <GridLayout orientation="vertical" rows="auto, *">
 
-    <lv:RadListView 
-      items="{{ winners }}" 
+    <lv:RadListView
+      items="{{ loadedWinners }}"
       class="list-group"
       row="1"
       selectionBehavior="Press"
       itemSwipeProgressEnded="onSwipeCellFinished"
-      itemSwipeProgressStarted="onSwipeCellStarted" 
+      itemSwipeProgressStarted="onSwipeCellStarted"
       itemSwipeProgressChanged="onSwipeCellProgressChanged"
-      itemSwiping="onItemSwiping" 
+      itemSwiping="onItemSwiping"
       itemTap="onItemTap"
       swipeActions="true"
-      loadOnDemandMode="Auto"
+      loadOnDemandMode="Manual"
+      loadMoreDataRequested="onLoadMoreItemsRequested"
     >
       <lv:RadListView.listViewLayout>
            <lv:ListViewLinearLayout scrollDirection="Vertical" itemInsertAnimation="Default" itemDeleteAnimation="Default"/>
       </lv:RadListView.listViewLayout>
       <lv:RadListView.itemTemplate>
         <StackLayout orientation="vertical" style="background-color: white;" >
-          <Label 
-            text="{{ number }}" 
-            textAlignment="center" 
-            class="list-group-item-heading" 
-            fontSize="80" 
+          <Label
+            text="{{ number }}"
+            textAlignment="center"
+            class="list-group-item-heading"
+            fontSize="80"
             fontWeight="bold"
             color="{{ isGet ? 'black' : 'gray' }}"
             textDecoration="{{ isGet ? 'line-through' : 'none' }}"
-          />
+          ></Label>
           <StackLayout height="2" backgroundColor="Black"/>
         </StackLayout >
       </lv:RadListView.itemTemplate>
@@ -47,6 +48,11 @@
           </StackLayout>
         </GridLayout>
       </lv:RadListView.itemSwipeTemplate>
-    </lv:RadListView>
+<!--       <lv:RadListView.loadOnDemandItemTemplate>
+          <GridLayout style="background-color: #7fff7f;">
+               <Label text="Load More" horizontalAlignment="center" verticalAlignment="center"/>
+          </GridLayout>
+      </lv:RadListView.loadOnDemandItemTemplate>
+ -->    </lv:RadListView>
   </GridLayout>
 </Page>

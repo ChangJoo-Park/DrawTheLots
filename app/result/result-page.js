@@ -12,10 +12,11 @@ JavaScript modules defined in other files.
 var frameModule = require("ui/frame");
 var topmost = frameModule.topmost;
 var view = require("ui/core/view");
+var timer = require("timer");
 var ResultViewModel = require("./result-view-model");
 var Observable = require("data/observable").Observable;
 var ObservableArray = require("data/observable-array").ObservableArray;
-
+var ListViewLoadOnDemandMode = require('nativescript-telerik-ui/listview').ListViewLoadOnDemandMode
 var resultViewModel = null
 var page;
 var items = new ObservableArray([]);
@@ -43,11 +44,12 @@ function onNavigatingTo(args) {
     https://docs.nativescript.org/core-concepts/data-binding.
     */
     resultViewModel = new ResultViewModel(page.navigationContext);
+    resultViewModel.loadMoreWinners()
     page.bindingContext = resultViewModel;
 }
 
 function onBack (args) {
-    topmost().goBack()    
+    topmost().goBack()
 }
 
 function onItemTap (args) {
@@ -83,6 +85,27 @@ function onItemSwiping (args) {
 function onRightSwipeClick (args) {
     alert('right click')
 }
+
+function onLoadMoreItemsRequested (args) {
+    var that = new WeakRef(this);
+    timer.setTimeout(function() {
+        console.log('start load more')
+        resultViewModel.loadMoreWinners()
+        .then(result => {
+            var listView = args.object;
+
+            if (result.hasMore) {
+                listView.loadOnDemandMode = ListViewLoadOnDemandMode[ListViewLoadOnDemandMode.Manual];
+            } else {
+                listView.loadOnDemandMode = ListViewLoadOnDemandMode[ListViewLoadOnDemandMode.None];
+            }
+
+            listView.notifyLoadOnDemandFinished();
+        })
+
+    }, 500);
+    args.returnValue = true;
+}
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
 to the file’s corresponding XML file. In this case, exporting the onNavigatingTo
@@ -98,3 +121,4 @@ exports.onSwipeCellProgressChanged = onSwipeCellProgressChanged;
 exports.onItemSwiping = onItemSwiping;
 exports.onRightSwipeClick = onRightSwipeClick;
 exports.onItemTap = onItemTap;
+exports.onLoadMoreItemsRequested = onLoadMoreItemsRequested;
