@@ -2,7 +2,7 @@
     xmlns="http://www.nativescript.org/tns.xsd">
   <ActionBar title="제비뽑기"></ActionBar>
   <FlexboxLayout flexDirection="column" class="page-content home">
-    <StackLayout flexGrow="1" verticalAlignment="bottom" margin="10" color="black">
+    <StackLayout flexGrow="1" verticalAlignment="bottom">
       <StackLayout target="participant" tap="onTapNumber">
         <Label text="참여자는" class="prefix-label"></Label>
         <Label>
