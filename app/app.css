@@ -8,12 +8,11 @@ selectors and properties you can use to style UI components.
 For example, the following CSS rule changes the font size of all UI
 components that have the btn class name.
 */
-.btn {
-  font-size: 30;
-}
-
 ActionBar {
   font-family: '야놀자 야체 Regular';
+  font-weight: bold;
+  background-color: #42b983;
+  color: #ffffff;
 }
 
 Label {
@@ -22,6 +21,33 @@ Label {
 
 Button {
   font-family: '야놀자 야체 Regular';
+}
+
+.button {
+  font-size: 50;
+}
+
+.button.button-start {
+  background-color: transparent;
+}
+.button:active {
+  background-color: #42b983;
+}
+
+.home {
+  margin: 10;
+  color: black;
+}
+
+.home .prefix-label {
+  font-size: 60;
+}
+.home .number-label {
+  font-size: 100;
+  font-weight: Bold;
+}
+.home .postfix-label {
+  font-size: 50;
 }
 
 /*
