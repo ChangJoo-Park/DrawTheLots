@@ -1,58 +1,20 @@
 <Page
   xmlns="http://www.nativescript.org/tns.xsd"
-  xmlns:lv="nativescript-telerik-ui/listview"
-  navigatingTo="onNavigatingTo"
-  >
+  xmlns:lv="nativescript-telerik-ui/listview" navigatingTo="onNavigatingTo">
   <!--Add your page content here-->
   <ActionBar title="제비뽑기">
     <NavigationButton text="go back" android.systemIcon="ic_menu_back" tap="onBack" />
   </ActionBar>
   <GridLayout orientation="vertical" rows="auto, *">
-
-    <lv:RadListView
-      items="{{ loadedWinners }}"
-      class="list-group"
-      row="1"
-      selectionBehavior="Press"
-      itemSwipeProgressEnded="onSwipeCellFinished"
-      itemSwipeProgressStarted="onSwipeCellStarted"
-      itemSwipeProgressChanged="onSwipeCellProgressChanged"
-      itemSwiping="onItemSwiping"
-      itemTap="onItemTap"
-      swipeActions="true"
-      loadOnDemandMode="Manual"
-      loadMoreDataRequested="onLoadMoreItemsRequested"
-    >
+    <lv:RadListView items="{{ loadedWinners }}" class="list-group" row="1" selectionBehavior="Press" itemTap="onItemTap" loadOnDemandMode="Manual" loadMoreDataRequested="onLoadMoreItemsRequested">
       <lv:RadListView.listViewLayout>
-           <lv:ListViewLinearLayout scrollDirection="Vertical" itemInsertAnimation="Default" itemDeleteAnimation="Default"/>
+        <lv:ListViewLinearLayout scrollDirection="Vertical" itemInsertAnimation="Default" itemDeleteAnimation="Default"/>
       </lv:RadListView.listViewLayout>
       <lv:RadListView.itemTemplate>
-        <StackLayout orientation="vertical" style="background-color: white;" >
-          <Label
-            text="{{ number }}"
-            textAlignment="center"
-            class="list-group-item-heading"
-            fontSize="80"
-            fontWeight="bold"
-            color="{{ isGet ? 'black' : 'gray' }}"
-            textDecoration="{{ isGet ? 'line-through' : 'none' }}"
-          ></Label>
-          <StackLayout height="2" backgroundColor="Black"/>
-        </StackLayout >
+        <StackLayout orientation="vertical" style="background-color: white;">
+          <Label text="{{ number }}" textAlignment="center" class="list-group-item-heading" fontSize="80" fontWeight="bold" color="{{ isGet ? 'black' : 'gray' }}" textDecoration="{{ isGet ? 'line-through' : 'none' }}"></Label>
+          <StackLayout height="2" backgroundColor="Black"/></StackLayout >
       </lv:RadListView.itemTemplate>
-      <lv:RadListView.itemSwipeTemplate>
-        <GridLayout columns="auto, *, auto" backgroundColor="White">
-          <StackLayout id="delete-view" col="2" style="background-color: tomato;" tap="onRightSwipeClick"  paddingLeft="16" paddingRight="16" orientation="horizontal">
-              <Label text="No Show" style="text-size: 20" verticalAlignment="center" horizontalAlignment="center" color="white"/>
-              <StackLayout height="2" backgroundColor="Black"/>
-          </StackLayout>
-        </GridLayout>
-      </lv:RadListView.itemSwipeTemplate>
-<!--       <lv:RadListView.loadOnDemandItemTemplate>
-          <GridLayout style="background-color: #7fff7f;">
-               <Label text="Load More" horizontalAlignment="center" verticalAlignment="center"/>
-          </GridLayout>
-      </lv:RadListView.loadOnDemandItemTemplate>
- -->    </lv:RadListView>
+    </lv:RadListView>
   </GridLayout>
 </Page>

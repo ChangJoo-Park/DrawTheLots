@@ -9,19 +9,19 @@ For example, the following CSS rule changes the font size of all UI
 components that have the btn class name.
 */
 .btn {
-    font-size: 30;
+  font-size: 30;
 }
 
 ActionBar {
-	font-family: '야놀자 야체 Regular'
+  font-family: '야놀자 야체 Regular';
 }
 
 Label {
-	font-family: '야놀자 야체 Regular'
+  font-family: '야놀자 야체 Regular';
 }
 
 Button {
-	font-family: '야놀자 야체 Regular'	
+  font-family: '야놀자 야체 Regular';
 }
 
 /*
