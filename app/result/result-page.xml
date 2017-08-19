@@ -5,15 +5,17 @@
   <ActionBar title="제비뽑기">
     <NavigationButton text="go back" android.systemIcon="ic_menu_back" tap="onBack" />
   </ActionBar>
-  <GridLayout orientation="vertical" rows="auto, *">
-    <lv:RadListView items="{{ loadedWinners }}" class="list-group" row="1" selectionBehavior="Press" itemTap="onItemTap" loadOnDemandMode="Manual" loadMoreDataRequested="onLoadMoreItemsRequested">
+  <GridLayout orientation="vertical" rows="auto, *" class="page-content result">
+    <lv:RadListView items="{{ loadedWinners }}" class="list-group" row="1" selectionBehavior="Press" loadOnDemandMode="Manual" loadMoreDataRequested="onLoadMoreItemsRequested">
       <lv:RadListView.listViewLayout>
         <lv:ListViewLinearLayout scrollDirection="Vertical" itemInsertAnimation="Default" itemDeleteAnimation="Default"/>
       </lv:RadListView.listViewLayout>
       <lv:RadListView.itemTemplate>
-        <StackLayout orientation="vertical" style="background-color: white;">
-          <Label text="{{ number }}" textAlignment="center" class="list-group-item-heading" fontSize="80" fontWeight="bold" color="{{ isGet ? 'black' : 'gray' }}" textDecoration="{{ isGet ? 'line-through' : 'none' }}"></Label>
-          <StackLayout height="2" backgroundColor="Black"/></StackLayout >
+        <RL:Ripple rippleColor="#42b983" tap="onItemTap">
+          <StackLayout orientation="vertical" class="item-wrapper">
+            <Label text="{{ number }}" textAlignment="center" class="item-label"></Label>
+            <StackLayout class="item-border"/></StackLayout >
+        </RL:Ripple>
       </lv:RadListView.itemTemplate>
     </lv:RadListView>
   </GridLayout>
