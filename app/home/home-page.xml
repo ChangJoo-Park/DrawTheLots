@@ -1,29 +1,39 @@
 <Page navigatingTo="onNavigatingTo"
+    xmlns:RL="nativescript-ripple"
     xmlns="http://www.nativescript.org/tns.xsd">
   <ActionBar title="제비뽑기"></ActionBar>
   <FlexboxLayout flexDirection="column" class="page-content home">
     <StackLayout flexGrow="1" verticalAlignment="bottom">
-      <StackLayout target="participant" tap="onTapNumber">
-        <Label text="참여자는" class="prefix-label"></Label>
-        <Label>
-          <FormattedString>
-              <Span text="{{ participant }} " class="number-label"></Span>
-              <Span text="명 입니다." class="postfix-label"></Span>
-          </FormattedString>
-        </Label>
-      </StackLayout>
-      <StackLayout target="winner" tap="onTapNumber">
-        <Label text="당첨자는" class="prefix-label"></Label>
-        <Label>
-          <FormattedString>
-              <Span text="{{ winner }} " class="number-label"></Span>
-              <Span text="명 입니다." class="postfix-label"></Span>
-          </FormattedString>
-        </Label>
-      </StackLayout>
+      <!-- Participants Label -->
+      <RL:Ripple rippleColor="#42b983" target="participant" tap="onTapNumber">
+        <StackLayout class="label-wrapper">
+          <Label text="참여자는" class="prefix-label"></Label>
+          <Label>
+            <FormattedString>
+                <Span text="{{ participant }} " class="number-label"></Span>
+                <Span text="명 입니다." class="postfix-label"></Span>
+            </FormattedString>
+          </Label>
+        </StackLayout>
+      </RL:Ripple>
+      <!-- Winners Label -->
+      <RL:Ripple rippleColor="#42b983" target="winner" tap="onTapNumber">
+        <StackLayout class="label-wrapper">
+          <Label text="당첨자는" class="prefix-label"></Label>
+          <Label>
+            <FormattedString>
+                <Span text="{{ winner }} " class="number-label"></Span>
+                <Span text="명 입니다." class="postfix-label"></Span>
+            </FormattedString>
+          </Label>
+        </StackLayout>
+      </RL:Ripple>
     </StackLayout>
+    <!-- Start Button  -->
     <StackLayout flexGrow="0">
-        <Button class="button button-start" text="시작" tap="onStartTap"></Button>
+      <RL:Ripple rippleColor="#42b983" tap="onStartTap">
+        <Button class="button button-start" text="시작"></Button>
+      </RL:Ripple>
     </StackLayout>
   </FlexboxLayout>
 </Page>

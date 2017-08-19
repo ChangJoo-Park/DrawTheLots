@@ -30,12 +30,8 @@ Button {
 .button.button-start {
   background-color: transparent;
 }
-.button:active {
-  background-color: #42b983;
-}
 
 .home {
-  margin: 10;
   color: black;
 }
 
@@ -48,6 +44,9 @@ Button {
 }
 .home .postfix-label {
   font-size: 50;
+}
+.label-wrapper {
+  padding: 10;
 }
 
 /*

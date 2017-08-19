@@ -18,7 +18,7 @@ var homeViewModel = new HomeViewModel();
 var LoadingIndicator = require("nativescript-loading-indicator")
   .LoadingIndicator;
 
-var loader = new LoadingIndicator();
+var loader = null;
 
 function onNavigatingTo(args) {
   /*
@@ -105,8 +105,9 @@ function onStartTap(args) {
 }
 
 function startLoading() {
-  // optional options
-  // android and ios have some platform specific options
+  if (loader === null) {
+    loader = new LoadingIndicator();
+  }
   var options = {
     message: "당첨자를 찾고 있습니다.",
     progress: 0.65,
