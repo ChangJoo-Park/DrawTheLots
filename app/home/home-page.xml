@@ -4,26 +4,26 @@
   <FlexboxLayout flexDirection="column" class="page-content home">
     <StackLayout flexGrow="1" verticalAlignment="bottom" margin="10" color="black">
       <StackLayout target="participant" tap="onTapNumber">
-        <Label text="참여자는" fontSize="60"></Label>
+        <Label text="참여자는" class="prefix-label"></Label>
         <Label>
           <FormattedString>
-              <Span text="{{ participant }} " fontSize="100" fontWeight="Bold" borderWidth="1"></Span>
-              <Span text="명 입니다." fontSize="50"></Span>
+              <Span text="{{ participant }} " class="number-label"></Span>
+              <Span text="명 입니다." class="postfix-label"></Span>
           </FormattedString>
         </Label>
       </StackLayout>
       <StackLayout target="winner" tap="onTapNumber">
-        <Label text="당첨자는" fontSize="60"></Label>
+        <Label text="당첨자는" class="prefix-label"></Label>
         <Label>
           <FormattedString>
-              <Span text="{{ winner }} " fontSize="100" fontWeight="Bold"></Span>
-              <Span text="명 입니다." fontSize="50"></Span>
+              <Span text="{{ winner }} " class="number-label"></Span>
+              <Span text="명 입니다." class="postfix-label"></Span>
           </FormattedString>
         </Label>
       </StackLayout>
     </StackLayout>
     <StackLayout flexGrow="0">
-        <Button text="시작" tap="onStartTap" fontSize="50"></Button>
+        <Button class="button button-start" text="시작" tap="onStartTap"></Button>
     </StackLayout>
   </FlexboxLayout>
 </Page>
