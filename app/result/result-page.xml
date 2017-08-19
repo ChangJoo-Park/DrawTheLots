@@ -1,7 +1,7 @@
 <Page
+  xmlns:RL="nativescript-ripple"
   xmlns="http://www.nativescript.org/tns.xsd"
   xmlns:lv="nativescript-telerik-ui/listview" navigatingTo="onNavigatingTo">
-  <!--Add your page content here-->
   <ActionBar title="제비뽑기">
     <NavigationButton text="go back" android.systemIcon="ic_menu_back" tap="onBack" />
   </ActionBar>
