@@ -11,13 +11,12 @@ JavaScript modules defined in other files.
 */
 var timer = require("timer");
 var ListViewLoadOnDemandMode = require("nativescript-telerik-ui/listview")
-.ListViewLoadOnDemandMode;
+  .ListViewLoadOnDemandMode;
 var SocialShare = require("nativescript-social-share");
 var frameModule = require("ui/frame");
 var topmost = frameModule.topmost;
 var ResultViewModel = require("./result-view-model");
 var resultViewModel = null;
-
 
 function onNavigatingTo(args) {
   /*
@@ -47,8 +46,7 @@ function onBack(args) {
 }
 
 function onItemTap(args) {
-  const index = args.view.index
-  console.log('[onItemTap] index : ', index)
+  const index = args.view.index;
   resultViewModel.toggleWinner(index);
 }
 
@@ -64,12 +62,6 @@ function onSwipeCellStarted(args) {
 function onSwipeCellProgressChanged(args) {
   var swipeLimits = args.data.swipeLimits;
   var currentItemView = args.object;
-
-  if (args.data.x > 200) {
-    console.log("Notify perform left action");
-  } else if (args.data.x < -200) {
-    console.log("Notify perform right action");
-  }
 }
 
 function onItemSwiping(args) {}
@@ -81,7 +73,6 @@ function onRightSwipeClick(args) {
 function onLoadMoreItemsRequested(args) {
   var that = new WeakRef(this);
   timer.setTimeout(function() {
-    console.log("start load more");
     resultViewModel.loadMoreWinners().then(result => {
       var listView = args.object;
 
@@ -99,19 +90,21 @@ function onLoadMoreItemsRequested(args) {
   args.returnValue = true;
 }
 
-function onShare (args) {
-  const winners = resultViewModel.getWinners()
-  const preMessage = `참여자는 ${resultViewModel.totalParticipant}명 입니다. `
-  let postMessage = ''
+function onShare(args) {
+  const winners = resultViewModel.getWinners();
+  const preMessage = `참여자는 ${resultViewModel.totalParticipant}명 입니다. `;
+  let postMessage = "";
   if (winners.length === 0) {
-    postMessage = '당첨자는 없습니다.'
+    postMessage = "당첨자는 없습니다.";
   } else {
-    postMessage = `당첨자는 ${winners.map(winner => {
-      return winner.number
-    }).join(', ')} 입니다.`
+    postMessage = `당첨자는 ${winners
+      .map(winner => {
+        return winner.number;
+      })
+      .join(", ")} 입니다.`;
   }
-  const message = preMessage + '\n' + postMessage
-  alert(message)
+  const message = "추첨 결과입니다!\n" + preMessage + "\n" + postMessage;
+  SocialShare.shareText(message);
 }
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
