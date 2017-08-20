@@ -104,6 +104,10 @@ function onLoadMoreItemsRequested(args) {
   }, 500);
   args.returnValue = true;
 }
+
+function onShare (args) {
+  alert(':)')
+}
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
 to the file’s corresponding XML file. In this case, exporting the onNavigatingTo
@@ -120,3 +124,4 @@ exports.onItemSwiping = onItemSwiping;
 exports.onRightSwipeClick = onRightSwipeClick;
 exports.onItemTap = onItemTap;
 exports.onLoadMoreItemsRequested = onLoadMoreItemsRequested;
+exports.onShare = onShare;

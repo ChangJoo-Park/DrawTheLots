@@ -4,6 +4,9 @@
   xmlns:lv="nativescript-telerik-ui/listview" navigatingTo="onNavigatingTo">
   <ActionBar title="{{'제비뽑기 (' + selected + '/' + totalWinner + ')'}}">
     <NavigationButton text="go back" android.systemIcon="ic_menu_back" tap="onBack" />
+    <ActionItem tap="onShare"
+        ios.systemIcon="9" ios.position="left"
+        android.systemIcon="ic_menu_share" android.position="actionBar"/>
   </ActionBar>
   <GridLayout orientation="vertical" rows="auto, *" class="page-content result">
     <lv:RadListView items="{{ loadedWinners }}" class="list-group" row="1" selectionBehavior="Press" loadOnDemandMode="Manual" loadMoreDataRequested="onLoadMoreItemsRequested">
