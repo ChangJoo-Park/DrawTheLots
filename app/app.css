@@ -61,14 +61,25 @@ Button {
   color: gray;
   text-decoration: none;
 }
-.item-wrapper .item-label.active {
-  color: black;
-  text-decoration: line-through;
-}
+
 .item-wrapper .item-border {
   height: 2;
   background-color: #42b983;
 }
+
+.item-wrapper.active {
+  background-color: #42b983;
+}
+.item-wrapper.active .item-label {
+  color: white;
+  text-decoration: line-through;
+}
+
+.item-wrapper.active .item-border {
+  height: 2;
+  background-color: white;
+}
+
 /*
 In many cases you may want to use the NativeScript core theme instead
 of writing your own CSS rules. For a full list of class names in the theme

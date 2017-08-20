@@ -12,9 +12,8 @@
       </lv:RadListView.listViewLayout>
       <lv:RadListView.itemTemplate>
         <RL:Ripple rippleColor="#42b983" index="{{ index }}" tap="onItemTap">
-          <StackLayout orientation="vertical" class="item-wrapper">
+          <StackLayout orientation="vertical" class="{{ isGet ? 'item-wrapper active' : 'item-wrapper'}}">
             <Label text="{{ number }}" textAlignment="center" class="item-label"></Label>
-            <Label text="{{ isGet }}" textAlignment="center" class="item-label"></Label>
             <StackLayout class="item-border"/></StackLayout >
         </RL:Ripple>
       </lv:RadListView.itemTemplate>
