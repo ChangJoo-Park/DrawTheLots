@@ -5,6 +5,7 @@ function shuffle(targetArray) {
     toSwap = Math.floor(Math.random() * (i + 1));
     tempNumber = targetArray[i];
     targetArray[i] = targetArray[toSwap];
+    targetArray[i].index = i; // FIXME: Ripple에서 인덱스를 알 수 있으면 제거해야함
     targetArray[toSwap] = tempNumber;
   }
 

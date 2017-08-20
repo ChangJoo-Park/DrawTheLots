@@ -29,11 +29,12 @@ function ResultViewModel(result) {
       );
     },
     toggleWinner: function(targetIndex) {
+      // FIXME: Ripple Tap 이벤트에서 $index를 찾을 수 있으면 객체에 index 제거
       let item = this.get("loadedWinners").getItem(targetIndex);
-      item.isGet = !item.isGet;
       this.get("loadedWinners").setItem(targetIndex, {
+        index: item.index,
         number: item.number,
-        isGet: item.isGet
+        isGet: !item.isGet
       });
     }
   });

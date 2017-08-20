@@ -53,8 +53,9 @@ function onBack(args) {
 }
 
 function onItemTap(args) {
-  alert('hello')
-  // resultViewModel.toggleWinner(args.index);
+  const index = args.view.index
+  console.log('[onItemTap] index : ', index)
+  resultViewModel.toggleWinner(index);
 }
 
 function onSwipeCellFinished(args) {}
