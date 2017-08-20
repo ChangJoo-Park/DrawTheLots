@@ -104,6 +104,20 @@ function onLoadMoreItemsRequested(args) {
   }, 500);
   args.returnValue = true;
 }
+
+function onShare (args) {
+  const winners = resultViewModel.getWinners()
+  const preMessage = `참여자는 ${resultViewModel.totalParticipant}명 입니다. `
+  let postMessage = ''
+  if (winners.length === 0) {
+    postMessage = '당첨자는 없습니다.'
+  } else {
+    postMessage = `당첨자는 ${winners.map(winner => {
+      return winner.number
+    }).join(', ')} 입니다.`
+  }
+  console.log('message : ', preMessage + postMessage)
+}
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
 to the file’s corresponding XML file. In this case, exporting the onNavigatingTo
@@ -120,3 +134,4 @@ exports.onItemSwiping = onItemSwiping;
 exports.onRightSwipeClick = onRightSwipeClick;
 exports.onItemTap = onItemTap;
 exports.onLoadMoreItemsRequested = onLoadMoreItemsRequested;
+exports.onShare = onShare;
