@@ -24,5 +24,7 @@
     "babel-types": "6.4.5",
     "babylon": "6.4.5",
     "lazy": "1.0.11"
-  }
+  },
+  "name": "제비뽑기 - Draw The Lots",
+  "author": "ChangJoo Park"
 }
