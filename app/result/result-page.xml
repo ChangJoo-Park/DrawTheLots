@@ -1,52 +1,25 @@
-<Page 
-  xmlns="http://www.nativescript.org/tns.xsd" 
-  xmlns:lv="nativescript-telerik-ui/listview" 
-  navigatingTo="onNavigatingTo" 
-  >
-  <!--Add your page content here-->
-  <ActionBar title="제비뽑기">
+<Page
+  xmlns:RL="nativescript-ripple"
+  xmlns="http://www.nativescript.org/tns.xsd"
+  xmlns:lv="nativescript-telerik-ui/listview" navigatingTo="onNavigatingTo">
+  <ActionBar title="{{'제비뽑기 (' + selected + '/' + totalWinner + ')'}}">
     <NavigationButton text="go back" android.systemIcon="ic_menu_back" tap="onBack" />
+    <ActionItem tap="onShare"
+        ios.systemIcon="9" ios.position="left"
+        android.systemIcon="ic_menu_share" android.position="actionBar"/>
   </ActionBar>
-  <GridLayout orientation="vertical" rows="auto, *">
-
-    <lv:RadListView 
-      items="{{ winners }}" 
-      class="list-group"
-      row="1"
-      selectionBehavior="Press"
-      itemSwipeProgressEnded="onSwipeCellFinished"
-      itemSwipeProgressStarted="onSwipeCellStarted" 
-      itemSwipeProgressChanged="onSwipeCellProgressChanged"
-      itemSwiping="onItemSwiping" 
-      itemTap="onItemTap"
-      swipeActions="true"
-      loadOnDemandMode="Auto"
-    >
+  <GridLayout orientation="vertical" rows="auto, *" class="page-content result">
+    <lv:RadListView items="{{ loadedWinners }}" class="list-group" row="1" selectionBehavior="Press" loadOnDemandMode="Manual" loadMoreDataRequested="onLoadMoreItemsRequested">
       <lv:RadListView.listViewLayout>
-           <lv:ListViewLinearLayout scrollDirection="Vertical" itemInsertAnimation="Default" itemDeleteAnimation="Default"/>
+        <lv:ListViewLinearLayout scrollDirection="Vertical" itemInsertAnimation="Default" itemDeleteAnimation="Default"/>
       </lv:RadListView.listViewLayout>
       <lv:RadListView.itemTemplate>
-        <StackLayout orientation="vertical" style="background-color: white;" >
-          <Label 
-            text="{{ number }}" 
-            textAlignment="center" 
-            class="list-group-item-heading" 
-            fontSize="80" 
-            fontWeight="bold"
-            color="{{ isGet ? 'black' : 'gray' }}"
-            textDecoration="{{ isGet ? 'line-through' : 'none' }}"
-          />
-          <StackLayout height="2" backgroundColor="Black"/>
-        </StackLayout >
+        <RL:Ripple rippleColor="#42b983" index="{{ index }}" tap="onItemTap">
+          <StackLayout orientation="vertical" class="{{ isGet ? 'item-wrapper active' : 'item-wrapper'}}">
+            <Label text="{{ number }}" textAlignment="center" class="item-label"></Label>
+            <StackLayout class="item-border"/></StackLayout >
+        </RL:Ripple>
       </lv:RadListView.itemTemplate>
-      <lv:RadListView.itemSwipeTemplate>
-        <GridLayout columns="auto, *, auto" backgroundColor="White">
-          <StackLayout id="delete-view" col="2" style="background-color: tomato;" tap="onRightSwipeClick"  paddingLeft="16" paddingRight="16" orientation="horizontal">
-              <Label text="No Show" style="text-size: 20" verticalAlignment="center" horizontalAlignment="center" color="white"/>
-              <StackLayout height="2" backgroundColor="Black"/>
-          </StackLayout>
-        </GridLayout>
-      </lv:RadListView.itemSwipeTemplate>
     </lv:RadListView>
   </GridLayout>
 </Page>

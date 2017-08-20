@@ -15,17 +15,20 @@ var topmost = frameModule.topmost;
 var dialogs = require("ui/dialogs");
 var HomeViewModel = require("./home-view-model");
 var homeViewModel = new HomeViewModel();
-var shuffleUtil = require('../utils/shuffle')
+var LoadingIndicator = require("nativescript-loading-indicator")
+  .LoadingIndicator;
+
+var loader = null;
 
 function onNavigatingTo(args) {
-    /*
+  /*
     This gets a reference this page’s <Page> UI component. You can
     view the API reference of the Page to see what’s available at
     https://docs.nativescript.org/api-reference/classes/_ui_page_.page.html
     */
-    var page = args.object;
+  var page = args.object;
 
-    /*
+  /*
     A page’s bindingContext is an object that should be used to perform
     data binding between XML markup and JavaScript code. Properties
     on the bindingContext can be accessed using the {{ }} syntax in XML.
@@ -35,58 +38,96 @@ function onNavigatingTo(args) {
     You can learn more about data binding in NativeScript at
     https://docs.nativescript.org/core-concepts/data-binding.
     */
-    page.bindingContext = homeViewModel;
+  page.bindingContext = homeViewModel;
 }
 
 function onTapNumber(args) {
-    const target = args.object.target
-    console.log('homeViewModel.get(target).toStrnig() : ', homeViewModel.get(target).toString())
-    const beforeNumber = homeViewModel.get(target).toString()
-    prompt({
-        title: '당첨자 수',
-        message: '숫자로 입력해주세요',
-        okButtonText: "확인",
-        cancelButtonText: "취소",
-        defaultText: beforeNumber,
-        inputType: dialogs.inputType.text
-    })
-    .then((r) => {
-        // Cancel
-        if (!r.result) {
-            return
-        }
+  const target = args.object.target;
+  let title = "";
+  switch (target) {
+    case "participant":
+      title = "참여자 수";
+      break;
+    case "winner":
+      title = "당첨자 수";
+      break;
+  }
 
-        const isEmpty = r.text.trim() === ''
-        const isNotANumber = isNaN(r.text)
-        if (isEmpty || isNotANumber) {
-            r.text = beforeNumber
-            return
-        }
+  const beforeNumber = homeViewModel.get(target).toString();
 
-        const parsedAmount = parseInt(r.text, 10)
-        homeViewModel.set(target, parsedAmount)
-    })
-}
-
-function onStartTap (args) {
-    var participantArray = []
-    for (var i = 0; i < parseInt(homeViewModel.get('participant'), 10); i++) {
-      participantArray.push(new observableModule.fromObject({
-        number: i + 1,
-        isGet: false
-      }))
+  prompt({
+    title: title,
+    message: "숫자로 입력해주세요",
+    okButtonText: "확인",
+    cancelButtonText: "취소",
+    defaultText: beforeNumber,
+    inputType: dialogs.inputType.text
+  }).then(r => {
+    // Cancel
+    if (!r.result) {
+      return;
     }
 
-    topmost().navigate({
-        moduleName: "result/result-page",
-        context: {
-            participant: homeViewModel.get('participant'),
-            winner: homeViewModel.get('winner'),
-            winners: shuffleUtil.shuffle(participantArray)
-        }
-    });
+    const isEmpty = r.text.trim() === "";
+    const isNotANumber = isNaN(r.text);
+    if (isEmpty || isNotANumber) {
+      r.text = beforeNumber;
+      return;
+    }
+
+    const parsedAmount = parseInt(r.text, 10);
+    homeViewModel.set(target, parsedAmount);
+  });
 }
 
+function onStartTap(args) {
+  startLoading();
+
+  const w = new Worker("../utils/shuffler.js");
+  const numberOfParticipant = parseInt(homeViewModel.get("participant"), 10);
+  w.postMessage({
+    numberOfParticipant: numberOfParticipant
+  });
+
+  w.onmessage = function(msg) {
+    if ((msg.data.res = "success")) {
+      stopLoading();
+      topmost().navigate({
+        moduleName: "result/result-page",
+        context: {
+          participant: homeViewModel.get("participant"),
+          winner: homeViewModel.get("winner"),
+          winners: msg.data.shuffledWinners
+        }
+      });
+    }
+  };
+}
+
+function startLoading() {
+  if (loader === null) {
+    loader = new LoadingIndicator();
+  }
+  var options = {
+    message: "당첨자를 찾고 있습니다.",
+    progress: 0.65,
+    android: {
+      indeterminate: true,
+      cancelable: false,
+      max: 100,
+      progressNumberFormat: "%1d/%2d",
+      progressPercentFormat: 0.53,
+      progressStyle: 1,
+      secondaryProgress: 1
+    }
+  };
+
+  loader.show(options);
+}
+
+function stopLoading() {
+  loader.hide();
+}
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
 to the file’s corresponding XML file. In this case, exporting the onNavigatingTo

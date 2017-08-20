@@ -9,30 +9,24 @@ NativeScript adheres to the CommonJS specification for dealing with
 JavaScript modules. The CommonJS require() function is how you import
 JavaScript modules defined in other files.
 */
+var timer = require("timer");
+var ListViewLoadOnDemandMode = require("nativescript-telerik-ui/listview")
+  .ListViewLoadOnDemandMode;
+var SocialShare = require("nativescript-social-share");
 var frameModule = require("ui/frame");
 var topmost = frameModule.topmost;
-var view = require("ui/core/view");
 var ResultViewModel = require("./result-view-model");
-var Observable = require("data/observable").Observable;
-var ObservableArray = require("data/observable-array").ObservableArray;
-
-var resultViewModel = null
-var page;
-var items = new ObservableArray([]);
-var pageData = new Observable();
-
-function pageLoaded (args) {
-}
+var resultViewModel = null;
 
 function onNavigatingTo(args) {
-    /*
+  /*
     This gets a reference this page’s <Page> UI component. You can
     view the API reference of the Page to see what’s available at
     https://docs.nativescript.org/api-reference/classes/_ui_page_.page.html
     */
-    var page = args.object;
+  var page = args.object;
 
-    /*
+  /*
     A page’s bindingContext is an object that should be used to perform
     data binding between XML markup and JavaScript code. Properties
     on the bindingContext can be accessed using the {{ }} syntax in XML.
@@ -42,46 +36,75 @@ function onNavigatingTo(args) {
     You can learn more about data binding in NativeScript at
     https://docs.nativescript.org/core-concepts/data-binding.
     */
-    resultViewModel = new ResultViewModel(page.navigationContext);
-    page.bindingContext = resultViewModel;
+  resultViewModel = new ResultViewModel(page.navigationContext);
+  resultViewModel.loadMoreWinners();
+  page.bindingContext = resultViewModel;
 }
 
-function onBack (args) {
-    topmost().goBack()    
+function onBack(args) {
+  topmost().goBack();
 }
 
-function onItemTap (args) {
-    resultViewModel.toggleWinner(args.index)
+function onItemTap(args) {
+  const index = args.view.index;
+  resultViewModel.toggleWinner(index);
 }
 
-function onSwipeCellFinished (args) {
+function onSwipeCellFinished(args) {}
 
+function onSwipeCellStarted(args) {
+  var swipeLimits = args.data.swipeLimits;
+  var swipeView = args.object;
+  var rightItem = swipeView.getViewById("delete-view");
+  swipeLimits.right = rightItem.getMeasuredWidth();
 }
 
-function onSwipeCellStarted (args) {
-    var swipeLimits = args.data.swipeLimits;
-    var swipeView = args.object;
-    var rightItem = swipeView.getViewById('delete-view');
-    swipeLimits.right = rightItem.getMeasuredWidth();
+function onSwipeCellProgressChanged(args) {
+  var swipeLimits = args.data.swipeLimits;
+  var currentItemView = args.object;
 }
 
-function onSwipeCellProgressChanged (args) {
-    var swipeLimits = args.data.swipeLimits;
-    var currentItemView = args.object;
+function onItemSwiping(args) {}
 
-    if (args.data.x > 200) {
-        console.log("Notify perform left action");
-    } else if (args.data.x < -200) {
-        console.log("Notify perform right action");
-    }
+function onRightSwipeClick(args) {
+  alert("right click");
 }
 
-function onItemSwiping (args) {
+function onLoadMoreItemsRequested(args) {
+  var that = new WeakRef(this);
+  timer.setTimeout(function() {
+    resultViewModel.loadMoreWinners().then(result => {
+      var listView = args.object;
 
+      if (result.hasMore) {
+        listView.loadOnDemandMode =
+          ListViewLoadOnDemandMode[ListViewLoadOnDemandMode.Manual];
+      } else {
+        listView.loadOnDemandMode =
+          ListViewLoadOnDemandMode[ListViewLoadOnDemandMode.None];
+      }
+
+      listView.notifyLoadOnDemandFinished();
+    });
+  }, 500);
+  args.returnValue = true;
 }
 
-function onRightSwipeClick (args) {
-    alert('right click')
+function onShare(args) {
+  const winners = resultViewModel.getWinners();
+  const preMessage = `참여자는 ${resultViewModel.totalParticipant}명 입니다. `;
+  let postMessage = "";
+  if (winners.length === 0) {
+    postMessage = "당첨자는 없습니다.";
+  } else {
+    postMessage = `당첨자는 ${winners
+      .map(winner => {
+        return winner.number;
+      })
+      .join(", ")} 입니다.`;
+  }
+  const message = "추첨 결과입니다!\n" + preMessage + "\n" + postMessage;
+  SocialShare.shareText(message);
 }
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
@@ -91,10 +114,11 @@ file work.
 */
 exports.onNavigatingTo = onNavigatingTo;
 exports.onBack = onBack;
-exports.pageLoaded = pageLoaded;
 exports.onSwipeCellFinished = onSwipeCellFinished;
 exports.onSwipeCellStarted = onSwipeCellStarted;
 exports.onSwipeCellProgressChanged = onSwipeCellProgressChanged;
 exports.onItemSwiping = onItemSwiping;
 exports.onRightSwipeClick = onRightSwipeClick;
 exports.onItemTap = onItemTap;
+exports.onLoadMoreItemsRequested = onLoadMoreItemsRequested;
+exports.onShare = onShare;
