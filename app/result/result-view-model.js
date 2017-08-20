@@ -12,17 +12,23 @@ function ResultViewModel(result) {
     done: false,
     loadedWinners: new ObservableArray(),
     loadMoreWinners: function() {
-      var lastIndex = this.index + this.offset;
+      var offset = this.offset;
+      if (this.index === 0) {
+        offset = this.totalWinner
+      }
+
+      var lastIndex = this.index + offset;
 
       if (lastIndex > result.participant) {
         lastIndex = result.participant;
       }
-      console.log("CURRENT INDEX : ", this.index);
-      console.log("LAST INDEX : ", lastIndex);
+
       for (var i = this.index; i < lastIndex; i++) {
         this.loadedWinners.push(this.get("winners").getItem(i));
       }
+
       this.set("index", this.loadedWinners.length);
+
       return new Promise(
         function(resolve, reject) {
           resolve({

@@ -68,7 +68,7 @@ Button {
 }
 
 .item-wrapper.active {
-  background-color: #42b983;
+  background-color: #35495E;
 }
 .item-wrapper.active .item-label {
   color: white;
