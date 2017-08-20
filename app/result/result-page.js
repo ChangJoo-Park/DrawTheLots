@@ -9,21 +9,15 @@ NativeScript adheres to the CommonJS specification for dealing with
 JavaScript modules. The CommonJS require() function is how you import
 JavaScript modules defined in other files.
 */
+var timer = require("timer");
+var ListViewLoadOnDemandMode = require("nativescript-telerik-ui/listview")
+.ListViewLoadOnDemandMode;
+var SocialShare = require("nativescript-social-share");
 var frameModule = require("ui/frame");
 var topmost = frameModule.topmost;
-var view = require("ui/core/view");
-var timer = require("timer");
 var ResultViewModel = require("./result-view-model");
-var Observable = require("data/observable").Observable;
-var ObservableArray = require("data/observable-array").ObservableArray;
-var ListViewLoadOnDemandMode = require("nativescript-telerik-ui/listview")
-  .ListViewLoadOnDemandMode;
 var resultViewModel = null;
-var page;
-var items = new ObservableArray([]);
-var pageData = new Observable();
 
-function pageLoaded(args) {}
 
 function onNavigatingTo(args) {
   /*
@@ -116,7 +110,8 @@ function onShare (args) {
       return winner.number
     }).join(', ')} 입니다.`
   }
-  console.log('message : ', preMessage + postMessage)
+  const message = preMessage + '\n' + postMessage
+  alert(message)
 }
 /*
 Exporting a function in a NativeScript code-behind file makes it accessible
@@ -126,7 +121,6 @@ file work.
 */
 exports.onNavigatingTo = onNavigatingTo;
 exports.onBack = onBack;
-exports.pageLoaded = pageLoaded;
 exports.onSwipeCellFinished = onSwipeCellFinished;
 exports.onSwipeCellStarted = onSwipeCellStarted;
 exports.onSwipeCellProgressChanged = onSwipeCellProgressChanged;
