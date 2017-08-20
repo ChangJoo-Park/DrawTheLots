@@ -2,7 +2,7 @@
   xmlns:RL="nativescript-ripple"
   xmlns="http://www.nativescript.org/tns.xsd"
   xmlns:lv="nativescript-telerik-ui/listview" navigatingTo="onNavigatingTo">
-  <ActionBar title="제비뽑기">
+  <ActionBar title="{{'제비뽑기 (' + selected + '/' + totalWinner + ')'}}">
     <NavigationButton text="go back" android.systemIcon="ic_menu_back" tap="onBack" />
   </ActionBar>
   <GridLayout orientation="vertical" rows="auto, *" class="page-content result">

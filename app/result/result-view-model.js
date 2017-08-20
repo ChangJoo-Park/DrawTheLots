@@ -3,9 +3,12 @@ var ObservableArray = require("data/observable-array").ObservableArray;
 
 function ResultViewModel(result) {
   const viewModel = observableModule.fromObject({
+    selected: '0',
+    totalWinner: result.winner,
     winners: new ObservableArray(result.winners),
     offset: 5,
     index: 0,
+    done: false,
     loadedWinners: new ObservableArray(),
     loadMoreWinners: function() {
       var lastIndex = this.index + this.offset;
@@ -31,11 +34,23 @@ function ResultViewModel(result) {
     toggleWinner: function(targetIndex) {
       // FIXME: Ripple Tap 이벤트에서 $index를 찾을 수 있으면 객체에 index 제거
       let item = this.get("loadedWinners").getItem(targetIndex);
+
+      if (parseInt(this.selected, 10) === this.totalWinner && item.isGet === false) {
+        return
+      }
       this.get("loadedWinners").setItem(targetIndex, {
         index: item.index,
         number: item.number,
         isGet: !item.isGet
       });
+
+      if (item.isGet) {
+        this.set('selected', (parseInt(this.selected, 10) - 1).toString())
+      } else {
+        this.set('selected', (parseInt(this.selected, 10) + 1).toString())
+      }
+
+      this.set('done', parseInt(this.selected, 10) === this.totalWinner)
     }
   });
   return viewModel;
