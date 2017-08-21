@@ -75,7 +75,6 @@ function onLoadMoreItemsRequested(args) {
   timer.setTimeout(function() {
     resultViewModel.loadMoreWinners().then(result => {
       var listView = args.object;
-
       if (result.hasMore) {
         listView.loadOnDemandMode =
           ListViewLoadOnDemandMode[ListViewLoadOnDemandMode.Manual];
