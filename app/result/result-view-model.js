@@ -15,7 +15,7 @@ var loadMoreWinners = function() {
   return new Promise(
     function(resolve, reject) {
       resolve({
-        hasMore: this.loadedWinners.length < result.participant,
+        hasMore: this.loadedWinners.length < this.totalParticipant,
         totalItem: this.winners.length
       });
     }.bind(this)
