@@ -100,7 +100,15 @@ function onStartTap(args) {
           winners: msg.data.shuffledWinners
         }
       });
+      w.terminate();
     }
+  };
+
+  w.onerror = function(err) {
+    console.log(
+      `An unhandled error occurred in worker: ${err.filename}, line: ${err.lineno} :`
+    );
+    console.log(err.message);
   };
 }
 
