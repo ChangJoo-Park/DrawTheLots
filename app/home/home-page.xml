@@ -32,7 +32,7 @@
     <!-- Start Button  -->
     <StackLayout flexGrow="0">
       <RL:Ripple rippleColor="#42b983" tap="onStartTap">
-        <Button class="button button-start" text="시작"></Button>
+        <Label class="button button-start" text="시작"></Label>
       </RL:Ripple>
     </StackLayout>
   </FlexboxLayout>
